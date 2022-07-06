@@ -32,9 +32,9 @@ public class PartialUpdateBookingTests extends BaseTest {
         body.put("bookingdates", bookingDates);
 
         //Update booking
-        Response responseUpdate = RestAssured.given().auth().preemptive().basic("admin", "password123")
+        Response responseUpdate = RestAssured.given(spec).auth().preemptive().basic("admin", "password123")
                 .contentType(ContentType.JSON).body(body.toString())
-                .patch("https://restful-booker.herokuapp.com/booking/" + bookingId);
+                .patch("/booking/" + bookingId);
         responseUpdate.print();
 
         //Verifications

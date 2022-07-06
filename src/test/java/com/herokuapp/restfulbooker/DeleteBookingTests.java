@@ -18,8 +18,8 @@ public class DeleteBookingTests extends BaseTest {
         int bookingId = responseCreate.jsonPath().getInt("bookingid");
 
         //Delete booking
-        Response responseDelete = RestAssured.given().auth().preemptive().basic("admin", "password123")
-                .delete("https://restful-booker.herokuapp.com/booking/" + bookingId);
+        Response responseDelete = RestAssured.given(spec).auth().preemptive().basic("admin", "password123")
+                .delete("/booking/" + bookingId);
         responseDelete.print();
 
         //Verifications

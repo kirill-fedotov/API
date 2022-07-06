@@ -36,9 +36,9 @@ public class UpdateBookingTests extends BaseTest {
         body.put("bookingdates", bookingDates);
 
         //Update booking
-        Response responseUpdate = RestAssured.given().auth().preemptive().basic("admin", "password123")
+        Response responseUpdate = RestAssured.given(spec).auth().preemptive().basic("admin", "password123")
                 .contentType(ContentType.JSON).body(body.toString())
-                .put("https://restful-booker.herokuapp.com/booking/" + bookingId);
+                .put("/booking/" + bookingId);
         responseUpdate.print();
 
         //Verifications
