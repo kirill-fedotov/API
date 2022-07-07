@@ -1,5 +1,7 @@
 package com.herokuapp.restfulbooker;
 
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,6 +12,7 @@ public class CreateBookingTests extends BaseTest {
     @Test
     public void createBookingTest() {
 
+        //Create booking
         Response response = createBooking();
         response.print();
 
@@ -43,5 +46,33 @@ public class CreateBookingTests extends BaseTest {
 
         softAssert.assertAll();
     }
+
+    @Test
+    public void createBookingWithPOJOTest() {
+
+        //Create booking using POJOs
+        Bookingdates bookingdates = new Bookingdates("2022-08-01", "2022-08-10");
+        Booking booking = new Booking("Mark", "Wilson", 150, true, bookingdates,"Baby crib");
+
+        //Get response
+        Response response = RestAssured.given(spec).contentType(ContentType.JSON).body(booking)
+                .post("/booking");
+        response.print();
+
+        Bookingid bookingid = response.as(Bookingid.class);
+
+        //Verifications
+        //Verify response 200
+        Assert.assertEquals(response.getStatusCode(), 200, "Status code should be 200, but it's not");
+
+        System.out.println("Request booking: " + booking.toString());
+        System.out.println("Response booking: " + bookingid.getBooking().toString());
+
+        //Verify all fields
+        Assert.assertEquals(bookingid.getBooking().toString(), booking.toString());
+    }
+
+
+
 
 }
